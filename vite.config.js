@@ -1,8 +1,10 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/staff-board/"
-})
+  base: '/staff-board/', // Add this line to set the base path
+  build: {
+    outDir: 'dist', // This ensures the output directory remains consistent
+  },
+});
