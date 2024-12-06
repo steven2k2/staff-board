@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - staging # Staging (development) branch
+      - staging # Staging branch
       - main    # Production branch
 
 jobs:
@@ -12,32 +12,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the Code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
 
-      # Step 3: Install Dependencies
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-      # Step 4: Run Linter (ESLint)
+      - name: Install dependencies
+        run: npm install
+
       - name: Run ESLint
         run: npx eslint .
-        continue-on-error: false # Halt pipeline on lint errors
 
-      # Step 5: Run Tests
       - name: Run Tests
         run: npm test
 
-      # Step 6: Build the Project
       - name: Build project
         run: npm run build
 
-      # Step 7: Upload Build Artifacts
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
