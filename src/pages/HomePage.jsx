@@ -37,7 +37,7 @@ const HomePage = () => {
             <AppBar position="static" sx={{ bgcolor: 'primary.main' }}>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Home Page
+                        Home Page*
                     </Typography>
                 </Toolbar>
             </AppBar>
