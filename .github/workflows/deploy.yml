@@ -3,21 +3,24 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - staging # Staging (development) branch
+      - main    # Production branch
 
 jobs:
-  build:
-    name: Build
+  build-and-test:
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
       # Step 1: Check out the Code
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v3
 
       # Step 2: Set up Node.js
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
+        with:
+          node-version: '16'
 
       # Step 3: Install Dependencies
       - name: Install dependencies
@@ -26,7 +29,7 @@ jobs:
       # Step 4: Run Linter (ESLint)
       - name: Run ESLint
         run: npx eslint .
-        continue-on-error: false # Ensure pipeline halts on lint errors
+        continue-on-error: false # Halt pipeline on lint errors
 
       # Step 5: Run Tests
       - name: Run Tests
@@ -36,28 +39,29 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # Step 7: Upload production-ready build files
-      - name: Upload production-ready build files
+      # Step 7: Upload Build Artifacts
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: production-files
+          name: build-artifacts
           path: ./dist
 
   deploy:
     name: Deploy
-    needs: build
+    needs: build-and-test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Download artifact
+      # Step 1: Download Build Artifacts
+      - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
-          name: production-files
-          path: ./dist
+          name: build-artifacts
 
+      # Step 2: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          cname: ${{ github.ref == 'refs/heads/main' && 'example.com' || 'staging.example.com' }}
