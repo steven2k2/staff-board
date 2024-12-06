@@ -50,16 +50,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Download Build Artifacts
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
 
-      # Step 2: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          cname: ${{ github.ref == 'refs/heads/main' && 'example.com' || 'staging.example.com' }}
+          destination_dir: ${{ github.ref == 'refs/heads/main' && '' || 'staging' }}
