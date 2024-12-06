@@ -17,7 +17,7 @@ const LaunchScreen = ({ title = "Loading...", showSpinner = true }) => {
             <Typography variant="h4" component="h1" gutterBottom>
                 {title}
             </Typography>
-            {showSpinner && <CircularProgress />}
+            {/*{showSpinner && <CircularProgress />}*/}
         </Box>
     );
 };

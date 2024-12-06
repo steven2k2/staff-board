@@ -45,7 +45,7 @@ const HomePage = () => {
             {/* Main Content */}
             <Container sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 <Typography variant="h4" component="h1" gutterBottom>
-                    Welcome to the Home Page
+                    Home Page
                 </Typography>
 
                 {/* Location Information */}
