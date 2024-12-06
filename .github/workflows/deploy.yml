@@ -11,18 +11,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Check out the Code
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      # Step 2: Set up Node.js
       - name: Setup Node
         uses: actions/setup-node@v3
 
+      # Step 3: Install Dependencies
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
+      # Step 4: Run Tests
+      - name: Run Tests
+        run: npm test
+
+      # Trigger failure alert for GitHub (default email alert)
+      - name: Mark Workflow as Failed
+        if: failure()
+        run: exit 1
+
+      # Step 5: Build the Project
       - name: Build project
         run: npm run build
 
+      # Step 6: Deploy to GitHub Pages
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
         with:
