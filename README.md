@@ -39,3 +39,4 @@ Goals (CD)
 
 3. Source Control Integration:
 - [X] GitHub is used for version control, triggering the pipeline based on changes to the main branch.
+Testing staging deployment
