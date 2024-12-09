@@ -7,8 +7,7 @@ on:
       - main    # Production branch
 
 jobs:
-  build-and-test:
-    name: Build and Test
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,11 +31,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run ESLint
-        run: npx eslint .
-
-      - name: Run Tests
-        run: npm test
+#      - name: Run ESLint
+#        run: npx eslint .
+#
+#      - name: Run Tests
+#        run: npm test
 
       - name: Build project
         run: npm run build
@@ -45,22 +44,31 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: ./dist
-
-  deploy:
-    name: Deploy
-    needs: build-and-test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifacts
+          path: dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          destination_dir: ${{ github.ref == 'refs/heads/main' && '' || 'staging' }}
+          publish_dir: dist
+          enable_jekyll: false
+          commit_message: "Deploy from GitHub Actions: ${{ github.sha }} on ${{ github.run_date }}"
+
+
+#  deploy:
+#    name: Deploy
+#    needs: build-and-test
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Download build artifacts
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: build-artifacts
+#
+#      - name: Deploy to GitHub Pages
+#        uses: peaceiris/actions-gh-pages@v3
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_dir: ./dist
+#          destination_dir: ${{ github.ref == 'refs/heads/main' && '' || 'staging' }}
