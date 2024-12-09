@@ -1,9 +1,9 @@
-name: Deploy
+name: Staff Board deploy
 
 on:
   push:
     branches:
-      - staging # Staging branch
+#      - staging # Staging branch
       - main    # Production branch
 
 jobs:
@@ -17,14 +17,17 @@ jobs:
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
-
-      - name: Cache Node Modules
-        uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          node-version: '22'
+          cache: 'npm'
+
+#      - name: Cache Node Modules
+#        uses: actions/cache@v3
+#        with:
+#          path: ~/.npm
+#          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#          restore-keys: |
+#            ${{ runner.os }}-node-
 
       - name: Install dependencies
         run: npm install

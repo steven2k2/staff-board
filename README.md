@@ -40,3 +40,10 @@ Goals (CD)
 3. Source Control Integration:
 - [X] GitHub is used for version control, triggering the pipeline based on changes to the main branch.
 Testing staging deployment
+
+
+![Build Status](https://github.com/steven2k2/staff-board/actions/workflows/deploy.yml/badge.svg)
+![License](https://img.shields.io/github/license/steven2k2/staff-board)
+![Last Commit](https://img.shields.io/github/last-commit/steven2k2/staff-board)
+
+
