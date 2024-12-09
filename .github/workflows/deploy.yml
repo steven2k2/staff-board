@@ -3,7 +3,6 @@ name: Staff Board deploy
 on:
   push:
     branches:
-#      - staging # Staging branch
       - main    # Production branch
 
 jobs:
@@ -17,34 +16,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: '18'
           cache: 'npm'
-
-#      - name: Cache Node Modules
-#        uses: actions/cache@v3
-#        with:
-#          path: ~/.npm
-#          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-#          restore-keys: |
-#            ${{ runner.os }}-node-
 
       - name: Install dependencies
         run: npm install
 
-#      - name: Run ESLint
-#        run: npx eslint .
-#
-#      - name: Run Tests
-#        run: npm test
-
       - name: Build project
         run: npm run build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-artifacts
-          path: dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -52,23 +31,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: dist
           enable_jekyll: false
-          commit_message: "Deploy from GitHub Actions: ${{ github.sha }} on ${{ github.run_date }}"
-
-
-#  deploy:
-#    name: Deploy
-#    needs: build-and-test
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Download build artifacts
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: build-artifacts
-#
-#      - name: Deploy to GitHub Pages
-#        uses: peaceiris/actions-gh-pages@v3
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          publish_dir: ./dist
-#          destination_dir: ${{ github.ref == 'refs/heads/main' && '' || 'staging' }}
+          commit_message: "Deploy from GitHub Actions: ${{ github.sha }}"
