@@ -78,6 +78,11 @@ const HomePage = () => {
                     Refresh Location
                 </Button>
             </Container>
+            {/* Footer Section */}
+            <footer style={{ textAlign: 'center', fontSize: '12px', color: 'gray', marginTop: '20px' }}>
+                <p>Build Version: {__VERSION__}</p>
+                <p>Build Date: {__BUILD_DATE__}</p>
+            </footer>
         </Box>
     );
 

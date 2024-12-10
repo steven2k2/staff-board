@@ -1,16 +1,16 @@
-name: Staff Board deploy
+name: Deploy Staff Board to GitHub Pages
 
 on:
   push:
     branches:
-      - main    # Production branch
+      - main  # Deploy only when changes are pushed to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
+      # Step 1: Check out the code
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -21,39 +21,18 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
-      # Step 3: Debug Node and npm versions
-      - name: Debug Node.js and npm versions
-        run: |
-          echo "Node.js version:"
-          node --version
-          echo "npm version:"
-          npm --version
-
-      # Step 4: Install dependencies
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 5: Check build script
-      - name: Check build script in package.json
-        run: |
-          echo "Build script in package.json:"
-          cat package.json | jq '.scripts.build'
-
-      # Step 6: Build project
-      - name: Build project
+      # Step 4: Build the project
+      - name: Build the project
         run: npm run build
 
-      # Step 7: Verify build output
-      - name: Verify build output
-        run: |
-          echo "Contents of dist directory:"
-          ls -la dist
-
-      # Step 8: Deploy to GitHub Pages
+      # Step 5: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: dist
           enable_jekyll: false
-          commit_message: "Deploy from GitHub Actions: ${{ github.sha }}"
