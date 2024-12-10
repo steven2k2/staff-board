@@ -8,10 +8,23 @@ import Typography from "@mui/material/Typography";
 import {Button, CircularProgress, Container} from "@mui/material";
 import Box from "@mui/material/Box";
 
+function formatBuildDate(isoDate) {
+    const date = new Date(isoDate);
+    return new Intl.DateTimeFormat('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+    }).format(date);
+}
+
+
 const HomePage = () => {
     const [location, setLocation] = useState(null);
     const [sunData, setSunData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const buildDate = typeof __BUILD_DATE__ !== 'undefined' ? formatBuildDate(__BUILD_DATE__) : 'Unknown';
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +50,7 @@ const HomePage = () => {
             <AppBar position="static" sx={{ bgcolor: 'primary.main' }}>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Home Page - Refactored Deployment
+                        Home Page
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -80,8 +93,7 @@ const HomePage = () => {
             </Container>
             {/* Footer Section */}
             <footer style={{ textAlign: 'center', fontSize: '12px', color: 'gray', marginTop: '20px' }}>
-                <p>Build Version: {__VERSION__}</p>
-                <p>Build Date: {__BUILD_DATE__}</p>
+                <p>Build date: {buildDate}</p>
             </footer>
         </Box>
     );
